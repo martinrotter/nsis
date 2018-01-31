@@ -1,6 +1,9 @@
 ;NSIS Setup Script
 ;--------------------------------
 
+!pragma warning error all
+!pragma warning warning 7010 ; File /NonFatal
+
 !ifdef VER_MAJOR & VER_MINOR
   !define /ifndef VER_REVISION 0
   !define /ifndef VER_BUILD 0
@@ -11,7 +14,7 @@
 ;--------------------------------
 ;Configuration
 
-!ifdef NSIS_MAKENSIS64
+!if ${NSIS_PTR_SIZE} > 4
   !define BITS 64
   !define NAMESUFFIX " (64 bit)"
 !else
@@ -68,8 +71,12 @@ Caption "NSIS ${VERSION}${NAMESUFFIX} Setup"
 ;Interface Settings
 !define MUI_ABORTWARNING
 
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\nsis3-install.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\nsis3-uninstall.ico"
+
 !define MUI_HEADERIMAGE
-!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\nsis.bmp"
+!define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\nsis3-branding.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\nsis3-branding.bmp"
 
 !define MUI_COMPONENTSPAGE_SMALLDESC
 
@@ -120,7 +127,7 @@ VIAddVersionKey "LegalCopyright" "http://nsis.sf.net/License"
 ;Installer Sections
 
 !macro InstallPlugin pi
-  !ifdef NSIS_MAKENSIS64
+  !if ${BITS} >= 64
     File "/oname=$InstDir\Plugins\amd64-unicode\${pi}.dll" ..\Plugins\amd64-unicode\${pi}.dll
   !else
     File "/oname=$InstDir\Plugins\x86-ansi\${pi}.dll" ..\Plugins\x86-ansi\${pi}.dll
@@ -129,7 +136,7 @@ VIAddVersionKey "LegalCopyright" "http://nsis.sf.net/License"
 !macroend
 
 !macro InstallStub stub
-  !ifdef NSIS_MAKENSIS64
+  !if ${BITS} >= 64
     File ..\Stubs\${stub}-amd64-unicode
   !else
     File ..\Stubs\${stub}-x86-ansi
@@ -157,7 +164,7 @@ ${MementoSection} "NSIS Core Files (required)" SecCore
   File ..\makensisw.exe
   File ..\COPYING
   File ..\NSIS.chm
-  !searchparse /file "..\NSIS.chm" "ITSF" VALIDATE_CHM
+  !pragma verifychm "..\NSIS.chm"
   File ..\NSIS.exe
   !if /FileExists "..\NSIS.exe.manifest"
     File "..\NSIS.exe.manifest"
@@ -233,11 +240,19 @@ ${MementoSection} "NSIS Core Files (required)" SecCore
 
   SetOutPath $INSTDIR\Bin
   File ..\Bin\LibraryLocal.exe
-  File ..\Bin\RegTool.bin
+  !if ${BITS} >= 64
+    File /NonFatal  ..\Bin\RegTool-x86.bin
+    File            ..\Bin\RegTool-amd64.bin
+  !else
+    File            ..\Bin\RegTool-x86.bin
+    !if /FileExists ..\Bin\RegTool-amd64.bin ; It is unlikely that this exists, avoid the /NonFatal warning.
+      File          ..\Bin\RegTool-amd64.bin
+    !endif
+  !endif
 
   CreateDirectory $INSTDIR\Plugins\x86-ansi
   CreateDirectory $INSTDIR\Plugins\x86-unicode
-  !ifdef NSIS_MAKENSIS64
+  !if ${BITS} >= 64
     CreateDirectory $INSTDIR\Plugins\amd64-unicode
   !endif
   !insertmacro InstallPlugin TypeLib
@@ -493,11 +508,10 @@ ${MementoSection} "Language Files" SecLangFiles
   SetOutPath $INSTDIR\Bin
   File ..\Bin\MakeLangID.exe
 
-  !insertmacro SectionFlagIsSet ${SecInterfacesModernUI} ${SF_SELECTED} mui nomui
-  mui:
+  ${If} ${SectionIsSelected} ${SecInterfacesModernUI}
     SetOutPath "$INSTDIR\Contrib\Language files"
     File "..\Contrib\Language files\*.nsh"
-  nomui:
+  ${EndIf}
 
 ${MementoSectionEnd}
 
@@ -783,13 +797,13 @@ Section -post
     DetailPrint "Configuring Modern UI..."
     SetDetailsPrint listonly
 
-    ${If} ${SectionIsSelected} ${SecLangFiles}
+    ${IfNot} ${SectionIsSelected} ${SecLangFiles}
       SetOutPath "$INSTDIR\Contrib\Language files"
       File "..\Contrib\Language files\English.nlf"
       File "..\Contrib\Language files\English.nsh"
     ${EndIf}
 
-    ${If} ${SectionIsSelected} ${SecGraphics}
+    ${IfNot} ${SectionIsSelected} ${SecGraphics}
       SetOutPath $INSTDIR\Contrib\Graphics\Checks
       File "..\Contrib\Graphics\Checks\modern.bmp"
       SetOutPath $INSTDIR\Contrib\Graphics\Icons
@@ -820,7 +834,7 @@ Section -post
   WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "UninstallString" '"$INSTDIR\uninst-nsis.exe"'
   WriteRegExpandStr HKLM "${REG_UNINST_KEY}" "InstallLocation" "$INSTDIR"
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayName" "Nullsoft Install System${NAMESUFFIX}"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\NSIS.exe,0"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" "$INSTDIR\uninst-nsis.exe,0"
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayVersion" "${VERSION}"
 !ifdef VER_MAJOR & VER_MINOR & VER_REVISION & VER_BUILD
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "VersionMajor" "${VER_MAJOR}"

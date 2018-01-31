@@ -5,14 +5,14 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1250
 # RTL - anything else than RTL means LTR
 -
 # Translation by Soft-Trans Bt. (V2)
 # Translation by Orfanik Kft.   (V3-V6)
 # ^Branding
-Nullsoft Telepítőrendszer %s
+Nullsoft Install System %s
 # ^SetupCaption
 $(^Name) Telepítő
 # ^UninstallCaption
@@ -184,8 +184,8 @@ Telepítő ellenőrzőlista
 # ^Byte
 B
 # ^Kilo
-K
+ K
 # ^Mega
-M
+ M
 # ^Giga
-G
+ G

@@ -6,13 +6,13 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1252
 # RTL - anything else than RTL means LTR
 -
 # Translation v 1.0.0 by Ramon Flores <fa2ramon@usc.es>
 # ^Branding
-Sistema de Instalación Nullsoft %s
+Nullsoft Install System %s
 # ^SetupCaption
 Instalación de $(^Name)
 # ^UninstallCaption
@@ -184,8 +184,8 @@ Rexistar proceso de instalación
 # ^Byte
 B
 # kilo
-K
+ K
 # mega
-M
+ M
 # giga
-G
+ G

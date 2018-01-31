@@ -5,14 +5,14 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1257
 # RTL - anything else than RTL means LTR
 -
 # Translation by Vytautas Krivickas (Vytautas)
 # Updated by Danielius Scepanskis (Daan daniel@takas.lt) 2004.03.24
 # ^Branding
-Nullsoft instaliavimo sistema %s
+Nullsoft Install System %s
 # ^SetupCaption
 $(^Name) Įdiegimas
 # ^UninstallCaption
@@ -184,8 +184,8 @@ Kopijuoti detales į atmintį
 # ^Byte
 B
 # ^Kilo
-K
+ K
 # ^Mega
-M
+ M
 # ^Giga
-G
+ G

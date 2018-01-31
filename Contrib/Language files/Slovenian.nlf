@@ -5,13 +5,13 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1250
 # RTL - anything else than RTL means LTR
 -
 # Translation by Janez Dolinar, edited by Martin Srebotnjak - Lugos.si
 # ^Branding
-Namestitveni sistem Nullsoft %s
+Nullsoft Install System %s
 # ^SetupCaption
 Namestitev $(^Name)
 # ^UninstallCaption
@@ -183,8 +183,8 @@ Shrani potek namestitve
 # ^Byte
 B
 # ^Kilo
-K
+ K
 # ^Mega
-M
+ M
 # ^Giga
-G
+ G

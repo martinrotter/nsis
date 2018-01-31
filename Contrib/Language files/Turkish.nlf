@@ -6,14 +6,14 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1254
 # RTL - anything else than RTL means LTR
 -
 # Translation by ?atay Dilsiz(chagy) (amigos_cagi@hotmail.com)
 # Corrections by Mozilla Türkiye Yerelleştirme Topluluğu tarafından çevrilmiştir. http://mozilla.org.tr
 # ^Branding
-Nullsoft Kurulum Sistemi %s
+Nullsoft Install System %s
 # ^SetupCaption
 $(^Name) Kurulumu
 # ^UninstallCaption
@@ -185,8 +185,8 @@ Kurulum sürecinin kaydını tut
 # ^Byte
 B
 # ^Kilo
-K
+ K
 # ^Mega
-M
+ M
 # ^Giga
-G
+ G

@@ -6,13 +6,13 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1256
 # RTL - anything else than RTL means LTR
 RTL
 # Translation By FzerorubigD - FzerorubigD@gmail.com - Thanx to all people help me in forum.persiantools.com, Elnaz Sarbar <elnaz@farsiweb.info>
 # ^Branding
-سیستم نصب نال‌سافت %s
+Nullsoft Install System %s
 # ^SetupCaption
 نصب $(^Name) 
 # ^UninstallCaption

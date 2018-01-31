@@ -47,7 +47,7 @@
 ;       Case-sensitive string tests:
 ;         a S== b; a S!= b
 ;       Standard (built-in) signed integer tests:
-;         a = b; a <> b; a < b; a >= b; a > b; a <= b
+;         a = b; a <> b; a < b; a >= b; a > b; a <= b; a & b
 ;       Standard (built-in) unsigned integer tests:
 ;         a U< b; a U>= b; a U> b; a U<= b
 ;       64-bit integer tests (using System.dll):
@@ -204,6 +204,12 @@
 
   !macro _<= _a _b _t _f
     !insertmacro _> `${_a}` `${_b}` `${_f}` `${_t}`
+  !macroend
+
+  !macro _& _a _b _t _f
+    !insertmacro _LOGICLIB_TEMP
+    IntOp $_LOGICLIB_TEMP `${_a}` & `${_b}`
+    !insertmacro _<> $_LOGICLIB_TEMP 0 `${_t}` `${_f}`
   !macroend
 
   ; Unsigned integer tests (NB: no need for extra equality tests)
@@ -664,7 +670,7 @@
         !error "Cannot use Case following a CaseElse"
       !endif
       Goto ${${_Logic}EndSelect}                          ; Go to EndSelect (Ends the previous Case)
-      !define /IfNDef _LogicLib_EndSelectLabelUsed
+      !define /IfNDef _LogicLib_EndSelectLabelUsed_${_Logic}
       ${${_Logic}Else}:                                   ; Place the Else label
       !undef ${_Logic}Else                                ; and remove it
     !else
@@ -753,9 +759,9 @@
       !undef ${_Logic}Else                                ; and remove it
     !endif
     !ifdef ${_Logic}EndSelect                             ; This won't be set if there weren't any cases
-      !ifdef _LogicLib_EndSelectLabelUsed                 ; There is no jump to ${${_Logic}EndSelect}: if there is only one Case
+      !ifdef _LogicLib_EndSelectLabelUsed_${_Logic}                 ; There is no jump to ${${_Logic}EndSelect}: if there is only one Case
         ${${_Logic}EndSelect}:                            ; Place the EndSelect
-        !undef _LogicLib_EndSelectLabelUsed
+        !undef _LogicLib_EndSelectLabelUsed_${_Logic}
       !endif
       !undef ${_Logic}EndSelect                           ; and remove it
     !endif

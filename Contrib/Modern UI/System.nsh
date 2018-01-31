@@ -1,12 +1,12 @@
 /*
 
 NSIS Modern User Interface - Version 1.8
-Copyright 2002-2016 Joost Verburg
+Copyright 2002-2018 Joost Verburg
 
 */
 
 !ifndef MUI_INCLUDED
-!echo "NSIS Modern User Interface version 1.8 - Copyright 2002-2016 Joost Verburg"
+!echo "NSIS Modern User Interface version 1.8 - Copyright 2002-2018 Joost Verburg"
 
 ;--------------------------------
 !verbose push 3
@@ -1123,6 +1123,10 @@ Var MUI_TEMP2
 
     UninstallText "${MUI_UNCONFIRMPAGE_TEXT_TOP}" "${MUI_UNCONFIRMPAGE_TEXT_LOCATION}"
 
+    !ifdef MUI_UNCONFIRMPAGE_VARIABLE
+      DirVar "${MUI_UNCONFIRMPAGE_VARIABLE}"
+    !endif
+
   PageExEnd
 
   !insertmacro MUI_UNFUNCTION_CONFIRMPAGE un.mui.ConfirmPre_${MUI_UNIQUEID} un.mui.ConfirmShow_${MUI_UNIQUEID} un.mui.ConfirmLeave_${MUI_UNIQUEID}
@@ -1447,8 +1451,8 @@ Var MUI_TEMP2
   !endif
 
   !insertmacro MUI_PAGE_FUNCTION_CUSTOM SHOW
-
   StartMenu::Show
+  !insertmacro MUI_PAGE_FUNCTION_CUSTOM DESTROYED
 
     Pop $MUI_TEMP1
     StrCmp $MUI_TEMP1 "success" 0 +2
@@ -2096,7 +2100,9 @@ Var MUI_TEMP2
 
   ; MUI_PAGE_UNINSTALLER_PREFIX is undefined by uninstaller pages so we check MUI_UNINSTALLER as well
   !ifndef MUI_PAGE_UNINSTALLER_PREFIX && MUI_UNINSTALLER
-    !warning "MUI_LANGUAGE should be inserted after the MUI_[UN]PAGE_* macros"
+    !ifndef MUI_DISABLE_INSERT_LANGUAGE_AFTER_PAGES_WARNING ; Define this to avoid the warning if you only have custom pages
+      !warning "MUI_LANGUAGE should be inserted after the MUI_[UN]PAGE_* macros"
+    !endif
   !endif
 
   !insertmacro MUI_INSERT
@@ -2188,7 +2194,8 @@ Var MUI_TEMP2
 
 !macro MUI_UNGETLANGUAGE
 
-  !verbose pop
+  !verbose push
+  !verbose ${MUI_VERBOSE}
 
   !ifdef MUI_LANGDLL_REGISTRY_ROOT & MUI_LANGDLL_REGISTRY_KEY & MUI_LANGDLL_REGISTRY_VALUENAME
 

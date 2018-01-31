@@ -6,13 +6,13 @@ NLF v6
 # Font and size - dash (-) means default
 -
 -
-# Codepage - dash (-) means ANSI code page
+# Codepage - dash (-) means ASCII code page
 1252
 # RTL - anything else than RTL means LTR
 -
 # Translation by Kevin P. Scannell < scannell at slu dot edu >
 # ^Branding
-Córas Suiteála Nullsoft %s
+Nullsoft Install System %s
 # ^SetupCaption
 Socrú $(^Name)
 # ^UninstallCaption
@@ -184,8 +184,8 @@ Logáil an próiseas suiteála
 # ^Byte
 B
 # ^Kilo
-K
+ K
 # ^Mega
-M
+ M
 # ^Giga
-G
+ G
